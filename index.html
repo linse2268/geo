@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geographie-Quiz</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+        background-color: rgb(31, 31, 31);
+        color: rgb(194, 194, 194);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+        width: 15vw;
+        height: 10vh;
+        font-size: 16px;
+        background-color: rgb(31, 31, 31);
+        color: rgb(194, 194, 194);
+        font-size: 3em;
+        font-weight: 900;
+        border: none;
+        border-radius: 1vw;
+      }
+      #question {
+        font-size: 2em;
+        color: rgb(255, 255, 255);
+        font-weight: 900;
+      }
+      #true {
+        background-color: rgba(0, 255, 0, 0.541);
+      }
+      #false {
+        background-color: rgba(255, 0, 0, 0.493);
+      }
+      #stats {
+        color: rgb(87, 87, 87);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>Geographie-Quiz Deutschland</h1>
+      <p id="question">Lade Frage...</p>
+      <button id="false" onclick="answer(false)">Falsch</button>
+      <button id="true" onclick="answer(true)">Richtig</button>
+
+      <p id="progress"></p>
+      <p id="stats"></p>
+    </div>
+
+    <script>
+      let elements = [
+        "Ostsee",
+        "Nordsee",
+        "Deutsche Bucht",
+        "Mecklenburger Bucht",
+        "Kieler Bucht",
+        "Lübecker Bucht",
+        "Pommersche Bucht",
+        "Rügen",
+        "Hiddensee",
+        "Fehmarn",
+        "Usedom",
+        "Sylt",
+        "Helgoland",
+        "Ostfriesische Inseln",
+        "Nordfriesische Inseln",
+        "Darß",
+        "Rhein",
+        "Elbe",
+        "Oder",
+        "Saale",
+        "Spree",
+        "Main",
+        "Mosel",
+        "Ems",
+        "Donau",
+        "Weser",
+        "Fulda",
+        "Werra",
+        "Nord-Ostsee-Kanal",
+        "Mittellandkanal",
+        "Elbe-Seitenkanal",
+        "Oder-Havel-Kanal",
+        "Bodensee",
+        "Müritz",
+        "Schweriner See",
+        "Steinhuder Meer",
+        "Mecklenburgische Seenplatte",
+        "Lüneburger Heide",
+        "Ostfriesland",
+        "Nordfriesland",
+        "Altmark",
+        "Oderbruch",
+        "Havelland",
+        "Magdeburger Börde",
+        "Emsland",
+        "Harz",
+        "Thüringer Wald",
+        "Fichtelgebirge",
+        "Bayerischer Wald",
+        "Schwarzwald",
+        "Erzgebirge",
+        "Elbsandsteingebirge",
+        "Alpenvorland",
+        "Alpen",
+        "Baden-Württemberg",
+        "Stuttgart",
+        "Bayern",
+        "München",
+        "Berlin",
+        "Berlin",
+        "Brandenburg",
+        "Potsdam",
+        "Bremen",
+        "Bremen",
+        "Hamburg",
+        "Hamburg",
+        "Hessen",
+        "Wiesbaden",
+        "Mecklenburg-Vorpommern",
+        "Schwerin",
+        "Niedersachsen",
+        "Hannover",
+        "Nordrhein-Westfalen",
+        "Düsseldorf",
+        "Rheinland-Pfalz",
+        "Mainz",
+        "Saarland",
+        "Saarbrücken",
+        "Sachsen",
+        "Dresden",
+        "Sachsen-Anhalt",
+        "Magdeburg",
+        "Schleswig-Holstein",
+        "Kiel",
+        "Thüringen",
+        "Erfurt",
+      ];
+      let remaining = [...elements];
+      let incorrectCount = 0;
+      let totalAnswers = 0;
+      let currentIndex = 0;
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function updateStats() {
+        let incorrectPercentage =
+          totalAnswers > 0
+            ? ((incorrectCount / totalAnswers) * 100).toFixed(2)
+            : 0;
+        document.getElementById(
+          "stats"
+        ).textContent = `Falsche Antworten: ${incorrectCount} (${incorrectPercentage}%) | Gesamt beantwortet: ${totalAnswers}`;
+      }
+
+      function nextQuestion() {
+        if (remaining.length === 0) {
+          document.getElementById("question").textContent =
+            "Glückwunsch! Du hast alles richtig beantwortet!";
+          document.getElementById("progress").textContent = "";
+          return;
+        }
+        currentIndex = Math.floor(Math.random() * remaining.length);
+        document.getElementById("question").textContent =
+          remaining[currentIndex];
+        document.getElementById(
+          "progress"
+        ).textContent = `Verbleibend: ${remaining.length}`;
+      }
+
+      function answer(isCorrect) {
+        totalAnswers++;
+        if (isCorrect) {
+          remaining.splice(currentIndex, 1);
+        } else {
+          incorrectCount++;
+        }
+        updateStats();
+        nextQuestion();
+      }
+
+      shuffleArray(remaining);
+      nextQuestion();
+    </script>
+  </body>
+</html>
